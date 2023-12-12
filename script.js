@@ -9,6 +9,7 @@ fly.setAttribute('class', "fa-solid fa-mosquito fa-shake fly");
 
 let pathArr = [];
 let stepCtr = 1;
+let algo = "BFS";
 
 
 mazeForm.onsubmit = (e) => {
@@ -20,17 +21,28 @@ mazeForm.onsubmit = (e) => {
 
     try {
         const maze = new Maze(rawMaze.value);
-        maze.solve();
-        pathArr = maze.createMazeGrids(mazeContainer);
+        //DFS
+        //BFS
+        //GBFS
+        //A_star
+        const ele = document.getElementsByName('algo');
+        for (i = 0; i < ele.length; i++) {
+            if (ele[i].checked)
+                algo = ele[i].id;
+        }
+        maze.solve(algo);
+        pathArr = maze.createMazeGrids(mazeContainer, algo === "BFS" || algo === "DFS" ? false : true);
 
         if (!document.getElementById("stepwise").checked) {
             mazeContainer.className = "result";
             // setTimeout(() => pathArr[pathArr.length-1].replaceChildren(frog), 1000);
 
-            // for A*
-            for (let i = 1; i < pathArr.length; ++i) {
-                pathArr[i].innerText = `${pathArr[i].getAttribute('step')} + ${pathArr[i].innerText}`;
+            if (algo === "A*") {
+                for (let i = 1; i < pathArr.length; ++i) {
+                    pathArr[i].innerText = `${pathArr[i].getAttribute('step')} + ${pathArr[i].innerText}`;
+                }
             }
+            
         }
         
 
@@ -44,7 +56,8 @@ mazeForm.onsubmit = (e) => {
 nextStepBtn.onclick = (e) => {
     const cell = pathArr[stepCtr++];
     cell.classList.add("step-path");
-    cell.innerText += `+${cell.getAttribute('step')}`;
+
+    if (algo === "A*") cell.innerText += `+${cell.getAttribute('step')}`;
     // cell.replaceChildren(frog);
 
     if (stepCtr === pathArr.length) mazeContainer.className = "result";
@@ -254,19 +267,36 @@ class Maze {
         return result;
     }
 
-    solve () {
+    solve (algo) {
         // Keep track of number of states explored
         this.numExplored = 0;
         // Initialize an empty explored set
         this.explored = new GeneralSet();
 
         //For A*
-        this.steps = new Array(this.height).fill(0).map(() => new Array(this.width).fill(0));
+        if (algo === "A*") this.steps = new Array(this.height).fill(0).map(() => new Array(this.width).fill(0));
 
         // Initialize frontier to just the starting position
         const source = new Node(this.source);
-        const frontier = new AStarPriorityQueueFrontier();
-        frontier.add(source, heuristicManhattan(source.state, this.goal));
+
+        let frontier;
+
+        if (algo === "DFS") {
+            frontier = new StackFrontier();
+            frontier.add(source);
+        }
+        else if (algo === "BFS") {
+            frontier = new QueueFrontier();
+            frontier.add(source);
+        }
+        else if (algo === "A*") {
+            frontier = new AStarPriorityQueueFrontier();
+            frontier.add(source, heuristicManhattan(source.state, this.goal));
+        }
+        else if (algo === "GBFS") {
+            frontier = new PriorityQueueFrontier();
+            frontier.add(source, heuristicManhattan(source.state, this.goal));
+        }
 
 
         // Keep looping until solution found
@@ -278,12 +308,15 @@ class Maze {
             
             let node = frontier.remove();
             // A*
-            const stepsTaken = node.step + 1;
+            let stepsTaken = 0
+            if (algo === "A*") stepsTaken = node.step + 1;
+            
+            
             // Changed to .val for heuristic
-            node = node.val;
+            if (algo === "A*" || algo === "GBFS") node = node.val;
 
             // A*
-            this.steps[node.state.row][node.state.col] = stepsTaken - 1;
+            if (algo === "A*") this.steps[node.state.row][node.state.col] = stepsTaken - 1;
 
             this.numExplored += 1;
 
@@ -313,14 +346,23 @@ class Maze {
                     ) {
                     const child = new Node(state, node, action);
                     // change for heuristic
-                    frontier.add(child, heuristicManhattan(state, this.goal), stepsTaken);
+                    if (algo === "DFS" || algo === "BFS") {
+                        frontier.add(child);
+                    }
+                    else if (algo === "GBFS") {
+                        frontier.add(child, heuristicManhattan(state, this.goal));
+                    }
+                    else if (algo === "A*") {
+                        frontier.add(child, heuristicManhattan(state, this.goal), stepsTaken);
+                    }
+                    
                 }
             }
 
         }
     }
 
-    createMazeGrids (mazeCont) {
+    createMazeGrids (mazeCont, heuristic=false) {
         //Remove previous Grids
 
         const setMazeDimensions = () => {
@@ -351,7 +393,7 @@ class Maze {
                 const gridCell = document.createElement('div');
 
                 // If heuristic
-                if(!this.walls[row][col])
+                if(!this.walls[row][col] && heuristic)
                     gridCell.innerText = heuristicManhattan({row: +row, col: +col}, this.goal);
 
                 let className = "grid-cell";
@@ -381,8 +423,8 @@ class Maze {
                         className += " path";
 
                         // A*
-                        if (this.steps[row][col])
-                            gridCell.setAttribute("step", this.steps[row][col])
+                        if (this.steps && this.steps[row][col])
+                            gridCell.setAttribute("step", this.steps[row][col]);
                     }
 
                 gridCell.setAttribute("class", className);
