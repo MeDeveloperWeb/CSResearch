@@ -18,9 +18,19 @@
         <label for="raw-maze">Enter Grid pattern: (' '[space character] for way, 'A' for starting point, 'B' for goal point, any other character for hurdle)</label>
         <textarea id="raw-maze" cols="30" rows="10"></textarea>
         <div>
+            <input type="radio" name="algo" id="BFS" checked>
+            <label for="BFS">Breadth first Search</label>
+            <input type="radio" name="algo" id="DFS">
+            <label for="DFS">Deapth first Search</label>
+            <input type="radio" name="algo" id="GBFS">
+            <label for="GBFS">Greedy Best first Search</label>
+            <input type="radio" name="algo" id="A*">
+            <label for="A*">A* Search</label>
+            
             <input type="checkbox" id="stepwise">   
             <label for="stepwise">Show Step-by-step solution</label>
             <button type="button" id="next-step">Next Step</button>
+
         </div>
         <input type="submit" value="Submit">
     </form>
