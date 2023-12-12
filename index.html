@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+    <!-- <script src="https://kit.fontawesome.com/938ffd1f44.js" crossorigin="anonymous"></script> -->
+    <title>Document</title>
+</head>
+<body>
+
+    <main>
+        <div id="maze"></div>
+    </main>
+
+    <form id="maze-form">
+        <label for="raw-maze">Enter Grid pattern: (' '[space character] for way, 'A' for starting point, 'B' for goal point, any other character for hurdle)</label>
+        <textarea id="raw-maze" cols="30" rows="10"></textarea>
+        <div>
+            <input type="checkbox" id="stepwise">   
+            <label for="stepwise">Show Step-by-step solution</label>
+            <button type="button" id="next-step">Next Step</button>
+        </div>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

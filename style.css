@@ -1,0 +1,92 @@
+body {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    min-height: 100vh;
+}
+
+main {
+    /* border: 2px solid black; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+div#maze {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    border: 2px solid black;
+}
+
+div.grid-row, div.grid-cell {
+    flex: auto;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+div.grid-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    border-left: 2px solid rgba(0, 0, 0);
+    border-bottom: 2px solid rgba(0, 0, 0);
+    /* background-color: bisque; */
+}
+
+div.result {
+    div.path {
+        background-color: orange;
+    }
+    
+    div.solution {
+        background-color: rgb(0, 248, 0);
+    }
+}
+
+div.step-path {
+    background-color: orange;
+}
+
+div.wall {
+    /* background: url(media/tree.png) bisque; */
+    background-color: gray;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+div.source {
+    background-color: red !important;
+}
+
+div.goal {
+    background-color: #045511 !important;
+}
+
+i {
+    font-size: 2.5rem;
+    color: rgb(4, 255, 0);
+    text-shadow: -1.5px 1px 0 #000, 
+                    1.5px 1px 0 #000, 
+                    1.5px -1px 0 #000, 
+                    -1.5px -1px 0 #000;
+
+    &.fly {
+        color: rgb(77, 12, 12);
+    }
+}
+
+form#maze-form {
+    display: flex;
+    margin: 2rem 0;
+    flex-direction: column;
+}
+#raw-maze {
+    width: min(960px, 80vh, 90vw);
+}
