@@ -39,7 +39,7 @@ mazeForm.onsubmit = (e) => {
 
             if (algo === "A*") {
                 for (let i = 1; i < pathArr.length; ++i) {
-                    pathArr[i].innerText = `${pathArr[i].getAttribute('step')} + ${pathArr[i].innerText}`;
+                    pathArr[i].innerText = `${pathArr[i].getAttribute('step')}+${pathArr[i].innerText}`;
                 }
             }
             
@@ -62,6 +62,21 @@ nextStepBtn.onclick = (e) => {
 
     if (stepCtr === pathArr.length) mazeContainer.className = "result";
 }
+
+document.getElementsByName("sample").forEach((el) => {
+    el.onclick = (e) => {
+        if (e.target.id == 1) rawMaze.value = "#####B#\n##### #\n####  #\n#### ##\n     ##\nA######";
+
+        else if (e.target.id == 2) rawMaze.value = "###                 #########\n#   ###################   # #\n# ####                # # # #\n# ################### # # # #\n#                     # # # #\n##################### # # # #\n#   ##                # # # #\n# # ## ### ## ######### # # #\n# #    #   ##B#         # # #\n# # ## ################ # # #\n### ##             #### # # #\n### ############## ## # # # #\n###             ##    # # # #\n###### ######## ####### # # #\n###### ####             #   #\nA      ######################";
+
+        else if (e.target.id == 3) rawMaze.value = "##    #\n## ## #\n#B #  #\n# ## ##\n     ##\nA######";
+
+        else if (e.target.id == 4) rawMaze.value = " # # ###  #B\n # #   # ##\n   # #   ##\n# ## # # ##\n#    # #\n### ## #####\nA   ##";
+
+        else if (e.target.id == 5) rawMaze.value = "3          B\n3 333333333\n3 3       3\n3 3 33333 3\n3   3     3\n333 3 33333\nA   3";
+
+    }
+})
 
 function areSameStates(state1, state2) {
     return state1.row == state2.row && state1.col == state2.col;
@@ -367,7 +382,7 @@ class Maze {
 
         const setMazeDimensions = () => {
             // min(960px, 80vh, 90vw); for max
-            const max = Math.min(window.screen.height*8/10, window.screen.width*9/10, 960);
+            const max = Math.min(window.screen.width*9.2/10, 960);
             if (this.height > this.width) {
                 mazeCont.style.width = max * (this.width / this.height) + 'px';
                 mazeCont.style.height = max + 'px';
