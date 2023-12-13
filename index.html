@@ -17,6 +17,19 @@
     <form id="maze-form">
         <label for="raw-maze">Enter Grid pattern: (' '[space character] for way, 'A' for starting point, 'B' for goal point, any other character for hurdle)</label>
         <textarea id="raw-maze" cols="30" rows="10"></textarea>
+        <div class="sample-maze">
+            Sample Maze:
+            <label for="1">1</label>
+            <input type="radio" name="sample" id="1">
+            <label for="2">2</label>
+            <input type="radio" name="sample" id="2">
+            <label for="3">3</label>
+            <input type="radio" name="sample" id="3">
+            <label for="4">4</label>
+            <input type="radio" name="sample" id="4">
+            <label for="5">5</label>
+            <input type="radio" name="sample" id="5">
+        </div>
         <div>
             <input type="radio" name="algo" id="BFS" checked>
             <label for="BFS">Breadth first Search</label>
@@ -26,12 +39,13 @@
             <label for="GBFS">Greedy Best first Search</label>
             <input type="radio" name="algo" id="A*">
             <label for="A*">A* Search</label>
-            
+        </div>
+        <div>
             <input type="checkbox" id="stepwise">   
             <label for="stepwise">Show Step-by-step solution</label>
             <button type="button" id="next-step">Next Step</button>
-
         </div>
+
         <input type="submit" value="Submit">
     </form>
 </body>
