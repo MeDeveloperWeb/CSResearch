@@ -382,7 +382,7 @@ class Maze {
 
         const setMazeDimensions = () => {
             // min(960px, 80vh, 90vw); for max
-            const max = Math.min(window.screen.width*9.2/10, 960);
+            const max = Math.min(window.screen.width*9.2/10, window.screen.height*8/10 , 960);
             if (this.height > this.width) {
                 mazeCont.style.width = max * (this.width / this.height) + 'px';
                 mazeCont.style.height = max + 'px';
