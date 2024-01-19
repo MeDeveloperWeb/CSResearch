@@ -53,6 +53,13 @@ mazeForm.onsubmit = (e) => {
 
 }
 
+document.addEventListener("keyup", function(event) {
+    if (event.key === "ArrowRight") {
+        event.preventDefault();
+        nextStepBtn.click();
+    }
+});
+
 nextStepBtn.onclick = (e) => {
     const cell = pathArr[stepCtr++];
     cell.classList.add("step-path");
