@@ -53,7 +53,7 @@ mazeForm.onsubmit = (e) => {
 
 }
 
-document.addEventListener("keyup", function(event) {
+document.addEventListener("keydown", function(event) {
     if (event.key === "ArrowRight") {
         event.preventDefault();
         nextStepBtn.click();
